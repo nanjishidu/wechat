@@ -12,25 +12,25 @@ import (
 
 //生成商品订单号
 func GetOutTradeNo() string {
-	u := uuid.NewV4().String()
+	u := uuid.Must(uuid.NewV4()).String()
 	return strings.Replace(u, "-", "", -1)
 }
 
 //生成退款订单号
 func GetOutRefundNo() string {
-	u := uuid.NewV1().String()
+	u := uuid.Must(uuid.NewV1()).String()
 	return strings.Replace(u, "-", "", -1)
 }
 
 //微信红包 商户订单号
 func GetMchBillno() string {
-	u := uuid.NewV1().String()
+	u := uuid.Must(uuid.NewV1()).String()
 	return strings.Replace(u, "-", "", -1)
 }
 
 //企业付款 商户订单号
 func GetPartnerRefundNo() string {
-	u := uuid.NewV1().String()
+	u := uuid.Must(uuid.NewV1()).String()
 	return strings.Replace(u, "-", "", -1)
 }
 

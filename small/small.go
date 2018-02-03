@@ -47,6 +47,16 @@ func GetWxUserInfo(session_key, encryptedData, iv string) (wui WxUserInfo, err e
 	return
 }
 
+//获取微信用户绑定的手机号
+func GetPhoneNumber(session_key, encryptedData, iv string) (wpn WxPhoneNumber, err error) {
+	plaintext, err := AesCBCDecrypt(session_key, encryptedData, iv)
+	if err != nil {
+		return
+	}
+	err = json.Unmarshal(plaintext, &wpn)
+	return
+}
+
 //微信加密数据结构
 type WxUserInfo struct {
 	OpenId    string     `json:"openId"`
@@ -71,4 +81,10 @@ type WxSesstion struct {
 type ErrInfo struct {
 	ErrCode int    `json:"errcode"`
 	ErrMsg  string `json:"errmsg"`
+}
+type WxPhoneNumber struct {
+	PhoneNumber     string     `json:"phoneNumber"`     //用户绑定的手机号（国外手机号会有区号）
+	PurePhoneNumber string     `json:"purePhoneNumber"` //没有区号的手机号
+	CountryCode     string     `json:"countryCode"`     //区号
+	Watermark       *Watermark `json:"watermark"`       //数据水印( watermark )
 }

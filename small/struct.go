@@ -19,6 +19,7 @@ type Watermark struct {
 type WxSesstion struct {
 	Openid     string `json:"openid"`
 	SessionKey string `json:"session_key"`
+	Unionid    string `json:"unionid"`
 	ErrInfo
 }
 type ErrInfo struct {

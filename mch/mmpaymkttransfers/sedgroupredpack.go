@@ -56,7 +56,7 @@ func SendGroupRedPack(mch_billno, send_name, re_openid, wishing, act_name, remar
 		req["wxappid"] = mch.MchConfig.SubAppId
 		req["msgappid"] = mch.MchConfig.AppId
 		req["mch_id"] = mch.MchConfig.MchId
-		req["sub_mch_id"] = mch.MchConfig.subMchId
+		req["sub_mch_id"] = mch.MchConfig.SubAppId
 	} else {
 		req["mch_id"] = mch.MchConfig.MchId
 		req["wxappid"] = mch.MchConfig.AppId

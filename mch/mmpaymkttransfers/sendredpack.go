@@ -3,9 +3,9 @@ package mmpaymkttransfers
 import (
 	"errors"
 
-	"github.com/nanjishidu/wechat/mch"
 	mchmmpaymkttransfers "gopkg.in/chanxuehong/wechat.v2/mch/mmpaymkttransfers"
 	wechatutil "gopkg.in/chanxuehong/wechat.v2/util"
+	"gopkg.in/nanjishidu/wechat.v1/mch"
 )
 
 // 发送红包

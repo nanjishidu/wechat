@@ -3,7 +3,7 @@ package promotion
 import (
 	"errors"
 
-	mchpromotion "gopkg.in/chanxuehong/wechat.v2/mch/mmpaymkttransfers/mchpromotion"
+	mchpromotion "gopkg.in/chanxuehong/wechat.v2/mch/mmpaymkttransfers/promotion"
 	wechatutil "gopkg.in/chanxuehong/wechat.v2/util"
 	"gopkg.in/nanjishidu/wechat.v1/mch"
 )

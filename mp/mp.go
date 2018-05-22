@@ -19,12 +19,18 @@ import (
 var (
 	MpAccessTokenSrv *mpcore.DefaultAccessTokenServer
 	MpTicketSrv      *mpjssdk.DefaultTicketServer
+	Oauth2Cli        *oauth2.Client
 )
 
 //初始化
 func NewWeMp(appId, appSecret string) {
 	MpAccessTokenSrv = mpcore.NewDefaultAccessTokenServer(appId, appSecret, nil)
 	MpTicketSrv = mpjssdk.NewDefaultTicketServer(mpcore.NewClient(MpAccessTokenSrv, nil))
+}
+func NewOauth2Cli(appId, appSecret string) {
+	Oauth2Cli = &oauth2.Client{
+		Endpoint: mpoauth2.NewEndpoint(appId, appSecret),
+	}
 }
 
 //创建临时微信二维码
@@ -41,11 +47,10 @@ func GetAuthCodeUrl(appId, uri string) string {
 	return mpoauth2.AuthCodeURL(appId, uri, "snsapi_userinfo", "STATE")
 }
 
-//根据code 获取微信用户信息
-func GetUserInfoByCode(appId, appSecret, code string) (info *openoauth2.UserInfo, err error) {
-	token, err := getWxOauth2TokenByCode(appId, appSecret, code)
+func GetUserInfoByCode(code string) (info *openoauth2.UserInfo, err error) {
+	token, err := getOauth2TokenByCode(code)
 	if err != nil {
-		return nil, errors.New("get wx oauth2 token is failed")
+		return nil, errors.New("get oauth2 token is failed")
 	}
 	valid, err := mpoauth2.Auth(token.AccessToken, token.OpenId, nil)
 	if err != nil || !valid {
@@ -55,11 +60,8 @@ func GetUserInfoByCode(appId, appSecret, code string) (info *openoauth2.UserInfo
 }
 
 //根据code 获取access_token
-func getWxOauth2TokenByCode(appId, appSecret, code string) (token *oauth2.Token, err error) {
-	var cli = &oauth2.Client{
-		Endpoint: mpoauth2.NewEndpoint(appId, appSecret),
-	}
-	token, err = cli.ExchangeToken(code)
+func getOauth2TokenByCode(code string) (token *oauth2.Token, err error) {
+	token, err = Oauth2Cli.ExchangeToken(code)
 	if err != nil {
 		return nil, err
 	}

@@ -9,40 +9,40 @@ import (
 	"sync"
 	"time"
 
-	uuid "github.com/satori/go.uuid"
+	uuid "github.com/nanjishidu/go.uuid"
 )
 
 var mutex sync.Mutex
 
 //生成商品订单号
 func GetOutTradeNo() string {
-	u := uuid.NewV4().String()
+	u := uuid.Must(uuid.NewV4()).String()
 	return strings.Replace(u, "-", "", -1)
 }
 
 //生成退款订单号
 func GetOutRefundNo() string {
-	u := uuid.NewV1().String()
+	u := uuid.Must(uuid.NewV1()).String()
 	return strings.Replace(u, "-", "", -1)
 }
 
 //微信红包 商户订单号
 func GetMchBillno() string {
-	u := uuid.NewV1().String()
+	u := uuid.Must(uuid.NewV1()).String()
 	return strings.Replace(u, "-", "", -1)
 }
 
 //微信裂变红包 商户订单号
-func GetMchBillno2() string {
+func GetMchBillno2(mchId string) string {
 	mutex.Lock()
 	defer mutex.Unlock()
 	time.Sleep(time.Second)
-	return MchConfig.MchId + time.Now().Format("20060102") + GetInt64Str(time.Now().Unix())
+	return mchId + time.Now().Format("20060102") + GetInt64Str(time.Now().Unix())
 }
 
 //企业付款 商户订单号
 func GetPartnerRefundNo() string {
-	u := uuid.NewV1().String()
+	u := uuid.Must(uuid.NewV1()).String()
 	return strings.Replace(u, "-", "", -1)
 }
 

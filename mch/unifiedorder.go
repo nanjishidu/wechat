@@ -40,7 +40,7 @@ MICROPAY--刷卡支付，刷卡支付有单独的支付接口，不调用统一�
 */
 //统一下单
 func JsapiUnifiedOrder(totalFee int64, openId, subOpenId, outTradeNo, body, spbillCreateIP, notifyURL, detail, attach,
-	goodsTag string) (resp *mchpay.UnifiedOrderResponse, err error) {
+	goodsTag string, timeStartExpire ...time.Time) (resp *mchpay.UnifiedOrderResponse, err error) {
 	req := &mchpay.UnifiedOrderRequest{
 		Body:           body,
 		OutTradeNo:     outTradeNo,
@@ -54,13 +54,42 @@ func JsapiUnifiedOrder(totalFee int64, openId, subOpenId, outTradeNo, body, spbi
 		GoodsTag:       goodsTag,
 		FeeType:        "CNY",
 		TimeStart:      time.Now(),
-		TimeExpire:     time.Now().Add(600 * time.Second),
+		TimeExpire:     time.Now().Add(3600 * time.Second),
 	}
 	if openId != "" {
 		req.OpenId = openId
 	}
 	if subOpenId != "" {
 		req.SubOpenId = subOpenId
+	}
+	if len(timeStartExpire) >= 2 {
+		req.TimeStart = timeStartExpire[0]
+		req.TimeExpire = timeStartExpire[1]
+	}
+	return UnifiedOrder(req)
+}
+
+// APP 统一下单
+func AppUnifiedOrder(totalFee int64, outTradeNo, body, spbillCreateIP, notifyURL, detail, attach,
+	goodsTag string, timeStartExpire ...time.Time) (resp *mchpay.UnifiedOrderResponse, err error) {
+	req := &mchpay.UnifiedOrderRequest{
+		Body:           body,
+		OutTradeNo:     outTradeNo,
+		TotalFee:       totalFee,
+		SpbillCreateIP: spbillCreateIP,
+		NotifyURL:      notifyURL,
+		TradeType:      "APP",
+		DeviceInfo:     "web",
+		Detail:         detail,
+		Attach:         attach,
+		GoodsTag:       goodsTag,
+		FeeType:        "CNY",
+		TimeStart:      time.Now(),
+		TimeExpire:     time.Now().Add(3600 * time.Second),
+	}
+	if len(timeStartExpire) >= 2 {
+		req.TimeStart = timeStartExpire[0]
+		req.TimeExpire = timeStartExpire[1]
 	}
 	return UnifiedOrder(req)
 }

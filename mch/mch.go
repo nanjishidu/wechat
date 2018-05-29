@@ -3,6 +3,7 @@ package mch
 import (
 	"errors"
 	"fmt"
+	"net/http"
 	"sync"
 
 	mchcore "gopkg.in/chanxuehong/wechat.v2/mch/core"
@@ -188,11 +189,16 @@ func (srv *WeMch) GetMchTLSClient(appFinalId string) (*mchcore.Client, error) {
 	}
 	certFile := appConfig["certFile"]
 	keyFile := appConfig["keyFile"]
-	if certFile == "" || keyFile == "" {
-		return nil, errors.New("certFile or keyFile  is not set")
+	certPEMBlock := appConfig["certPEMBlock"]
+	keyPEMBlock := appConfig["keyPEMBlock"]
+	var cli *http.Client
+	if certFile != "" && keyFile != "" {
+		cli, err = mchcore.NewTLSHttpClient(certFile, keyFile)
+	} else if certPEMBlock != "" && keyPEMBlock != "" {
+		cli, err = mchcore.NewTLSHttpClient2([]byte(certPEMBlock), []byte(keyPEMBlock))
+	} else {
+		return nil, errors.New("cert or key  is not set")
 	}
-
-	cli, err := mchcore.NewTLSHttpClient(certFile, keyFile)
 	if err != nil {
 		return nil, err
 	}

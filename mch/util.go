@@ -9,7 +9,7 @@ import (
 	"sync"
 	"time"
 
-	uuid "github.com/nanjishidu/go.uuid"
+	uuid "gopkg.in/nanjishidu/gouuid.v1"
 )
 
 var mutex sync.Mutex

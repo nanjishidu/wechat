@@ -3,10 +3,10 @@ package promotion
 import (
 	"errors"
 
-	"github.com/nanjishidu/wechat/mch"
 	mchcore "gopkg.in/chanxuehong/wechat.v2/mch/core"
 	mchpromotion "gopkg.in/chanxuehong/wechat.v2/mch/mmpaymkttransfers/promotion"
 	wechatutil "gopkg.in/chanxuehong/wechat.v2/util"
+	"gopkg.in/nanjishidu/wechat.v2/mch"
 )
 
 // 企业付款.

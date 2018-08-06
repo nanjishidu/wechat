@@ -3,10 +3,10 @@ package mmpaymkttransfers
 import (
 	"errors"
 
-	"github.com/nanjishidu/wechat/mch"
 	mchcore "gopkg.in/chanxuehong/wechat.v2/mch/core"
 	mchmmpaymkttransfers "gopkg.in/chanxuehong/wechat.v2/mch/mmpaymkttransfers"
 	wechatutil "gopkg.in/chanxuehong/wechat.v2/util"
+	"gopkg.in/nanjishidu/wechat.v2/mch"
 )
 
 // 发送裂变红包红包

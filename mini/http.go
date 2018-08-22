@@ -23,7 +23,12 @@ func NewRequest(method, url string, body io.Reader) *HttpRequest {
 		req: req,
 	}
 }
-
+func HttpPost(url string, data ...io.Reader) *HttpRequest {
+	if len(data) > 0 {
+		return NewRequest("POST", url, data[0])
+	}
+	return NewRequest("POST", url, nil)
+}
 func HttpGet(url string, data ...io.Reader) *HttpRequest {
 	if len(data) > 0 {
 		return NewRequest("GET", url, data[0])

@@ -41,3 +41,23 @@ type StepInfo struct {
 	Step      int64 `json:"step"`
 	Timestamp int64 `json:"timestamp"`
 }
+
+const (
+	WxAcodeTypeA string = "A"
+	WxAcodeTypeB string = "B"
+	WxAcodeTypeC string = "C"
+)
+
+type WxAcode struct {
+	Scene     string     `json:"scene,omitempty"`
+	Path      string     `json:"path,omitempty"`
+	Width     int        `json:"width,omitempty"`
+	AutoColor bool       `json:"auto_color,omitempty"`
+	LineColor *LineColor `json:"line_color,omitempty"`
+	IsHyaline bool       `json:"is_hyaline,omitempty"`
+}
+type LineColor struct {
+	R string `json:"r"`
+	G string `json:"g"`
+	B string `json:"b"`
+}

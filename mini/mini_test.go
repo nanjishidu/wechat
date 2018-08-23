@@ -79,12 +79,10 @@ func TestSendTemplateNews(t *testing.T) {
 	}
 
 	resp, err := SendTemplateNews(accessTokenServer, openId, templateId, formId, "", map[string]interface{}{
-		"keyword1": map[string]interface{}{"value": "20161031162645020777"},
-		"keyword2": map[string]interface{}{"value": "啤酒"},
-		"keyword3": map[string]interface{}{"value": "100元"},
-		"keyword4": map[string]interface{}{"value": time.Now().Format("2006年01月02日 15时04分05秒")},
+		"keyword1": map[string]interface{}{"value": "每日早报"},
+		"keyword2": map[string]interface{}{"value": "2018.08.23早报"},
 	})
-	fmt.Println(resp.ErrCode, resp.ErrMsg)
+	fmt.Println(resp)
 	if err != nil {
 		t.Fatal(err)
 		t.FailNow()

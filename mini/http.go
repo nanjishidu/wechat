@@ -8,7 +8,19 @@ import (
 	"io"
 	"io/ioutil"
 	"net/http"
+	"time"
 )
+
+var DefaultHttpClient *http.Client
+
+func init() {
+	client := *http.DefaultClient
+	client.Timeout = time.Second * 5
+	client.Transport = &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+	}
+	DefaultHttpClient = &client
+}
 
 type HttpRequest struct {
 	req *http.Request
@@ -36,12 +48,7 @@ func HttpGet(url string, data ...io.Reader) *HttpRequest {
 	return NewRequest("GET", url, nil)
 }
 func (m *HttpRequest) DoRequest() (*http.Response, error) {
-	client := &http.Client{
-		Transport: &http.Transport{
-			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
-		},
-	}
-	resp, err := client.Do(m.req)
+	resp, err := DefaultHttpClient.Do(m.req)
 	if err != nil {
 		return nil, err
 	}
